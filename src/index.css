@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Display:ital@0;1&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css');
+
+/* ! hay que colocar los import antes de tailwind */
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'DM Serif Display', 'sans-serif';
+  --font-body: 'DM Sans', 'sans-serif';
+
+  --text-primary: clamp(1rem, 0.34vw + 1rem, 1.5rem);
+  --text-display: clamp(1rem, 5vw + 1rem, 5rem);
+  --text-display--line-height: 1.4;
+
+  --breakpoint-3xl: 1920px;
+
+  --spacing: 0.25rem;
+
+  /* grid-template-columns custom variables */
+  --grid-template-columns-fill-100: repeat(auto-fill, minmax(100px, 1fr));
+  --grid-template-columns-fill-200: repeat(auto-fill, minmax(200px, 1fr));
+
+  --grid-template-columns-fit-100: repeat(auto-fit, minmax(100px, 1fr));
+  --grid-template-columns-fit-200: repeat(auto-fit, minmax(200px, 1fr));
+
+  --animate-dialog: fade-out 3s ease forwards 3s;
+
+  @keyframes fade-out {
+    /* Es fundamental el uso de overflow hidden en el elemento */
+    from {
+      display: block;
+      opacity: 1;
+      max-height: 100vh;
+    }
+
+    to {
+      max-height: 0;
+    }
+  }
+}
+
+/* Styles for the app */
+
+button {
+  padding: 0.5em 1em;
+  border-radius: 1rem;
+  cursor: pointer;
+  @apply transition-colors duration-300;
+}
+
+.btn-primary {
+  @apply bg-blue-600;
+  color: white;
+
+  &:hover {
+    @apply bg-blue-700;
+  }
+}
+
+.btn-danger {
+  @apply bg-red-600;
+  color: white;
+
+  &:hover {
+    @apply bg-red-700;
+  }
+}
+
+input[type='text'] {
+  border: 1px solid gray;
+  padding: 0.5rem;
+  @apply rounded-lg;
+}
