@@ -26,6 +26,7 @@
   --animate-dialog: fade-out 3s ease forwards 3s;
 
   @keyframes fade-out {
+
     /* Es fundamental el uso de overflow hidden en el elemento */
     from {
       display: block;
@@ -45,7 +46,7 @@ button {
   padding: 0.5em 1em;
   border-radius: 1rem;
   cursor: pointer;
-  @apply transition-colors duration-300;
+  @apply transition-colors duration-300 place-self-start;
 }
 
 .btn-primary {
