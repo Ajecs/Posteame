@@ -139,14 +139,15 @@ export const AddItem = () => {
 			auth,
 			emailLoginRef.current.value,
 			passwordLoginRef.current.value,
-		).then((userCredential) => {
-			console.log(userCredential.user.email)
-			emailLoginRef.current.value = ''
-			passwordLoginRef.current.value = ''
-		})
-		.catch((error) => {
-			console.log(error)
-		})
+		)
+			.then((userCredential) => {
+				console.log(userCredential.user.email)
+				emailLoginRef.current.value = ''
+				passwordLoginRef.current.value = ''
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}
 
 	function handleLogout() {
@@ -225,7 +226,12 @@ export const AddItem = () => {
 					<label className="" htmlFor="mail">
 						Ingrese el correo electrónico
 					</label>
-					<input ref={emailRegRef} id="mail-reg" type="email" placeholder="email" />
+					<input
+						ref={emailRegRef}
+						id="mail-reg"
+						type="email"
+						placeholder="email"
+					/>
 					<label className="" htmlFor="pass">
 						Ingrese la contrasena
 					</label>
@@ -262,7 +268,10 @@ export const AddItem = () => {
 						type="password"
 						placeholder="*****"
 					/>
-					<button onClick={handleLogin} className="btn-primary col-span-2 justify-self-end ms-auto">
+					<button
+						onClick={handleLogin}
+						className="btn-primary col-span-2 justify-self-end ms-auto"
+					>
 						Iniciar sesión
 					</button>
 					<button

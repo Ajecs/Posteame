@@ -233,6 +233,8 @@
 						"noUnsafeNegation": "error",
 						"useGetterReturn": "error",
 						"useValidTypeof": "error"
+					},
+					"style": {
 					}
 				}
 			}
