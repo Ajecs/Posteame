@@ -13,15 +13,26 @@ import {
 	where,
 	updateDoc,
 } from 'firebase/firestore'
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+	signOut,
+} from 'firebase/auth'
 import { useRef } from 'react'
 
 export const AddItem = () => {
+	// Referencias de inputs y formulario
 	const formRef = useRef(),
 		nameRef = useRef(),
 		idRef = useRef(),
 		categoryRef = useRef(),
 		nameUpdateRef = useRef(),
-		idUpdateRef = useRef()
+		idUpdateRef = useRef(),
+		emailRegRef = useRef(),
+		passwordRegRef = useRef(),
+		emailLoginRef = useRef(),
+		passwordLoginRef = useRef()
 
 	const firebaseConfig = {
 		apiKey: 'AIzaSyCj8GE444Vgm3tSYz5R8xpuMKZChyonM9k',
@@ -34,8 +45,13 @@ export const AddItem = () => {
 
 	// Initialize Firebase
 	const app = initializeApp(firebaseConfig),
+		// iniciando servicio de base de datos
 		db = getFirestore(),
+		// iniciando servicio de autenticación
+		auth = getAuth(),
 		colRef = collection(db, 'rolls'),
+		docRef = doc(db, 'rolls', 'fQ7p5aPrJsrvv75Endoq'),
+		// Query para filtrar y ordenar colección
 		queryRef = query(
 			colRef,
 			where('category', '==', 'especiales'),
@@ -46,18 +62,7 @@ export const AddItem = () => {
       que recibe el campo, una condición y el valor que queremos buscar   
     */
 
-	/* getDocs(colRef)
-    .then((data) => {
-      let rolls = []
-      data.docs.forEach((doc) => {
-        rolls.push({ ...doc.data(), id: doc.id })
-      })
-      console.log(rolls)
-    })
-    .catch((error) => console.log(error)) */
-
 	onSnapshot(colRef, (data) => {
-		// onSnapshot permite obtener los datos en tiempo real
 		let rolls = []
 		data.docs.forEach((doc) => {
 			rolls.push({ ...doc.data(), id: doc.id })
@@ -70,9 +75,14 @@ export const AddItem = () => {
 		data.docs.forEach((doc) => {
 			rolls.push({ ...doc.data(), id: doc.id })
 		})
-		console.log(rolls)
+		// console.log(rolls)
+	})
+	// Obtención de un document
+	onSnapshot(docRef, (doc) => {
+		// console.log(doc.data(), doc.id)
 	})
 
+	// Funciones para el manejo de datos
 	function handleAddItem(event) {
 		event.preventDefault()
 		addDoc(colRef, {
@@ -108,12 +118,53 @@ export const AddItem = () => {
 		})
 	}
 
+	function handleRegister() {
+		createUserWithEmailAndPassword(
+			auth,
+			emailRegRef.current.value,
+			passwordRegRef.current.value,
+		)
+			.then((userCredential) => {
+				console.log(userCredential)
+				emailRegRef.current.value = ''
+				passwordRegRef.current.value = ''
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+	}
+
+	function handleLogin() {
+		signInWithEmailAndPassword(
+			auth,
+			emailLoginRef.current.value,
+			passwordLoginRef.current.value,
+		).then((userCredential) => {
+			console.log(userCredential.user.email)
+			emailLoginRef.current.value = ''
+			passwordLoginRef.current.value = ''
+		})
+		.catch((error) => {
+			console.log(error)
+		})
+	}
+
+	function handleLogout() {
+		signOut(auth)
+			.then(() => {
+				console.log('logged out')
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+	}
+
 	return (
 		<div className="">
 			<h2 className="mb-2">Firebase example</h2>
 			<form
 				ref={formRef}
-				className="add-form grid grid-cols-3 md:grid-cols-3 gap-4 items-center"
+				className="grid items-center grid-cols-3 gap-4 add-form md:grid-cols-3"
 			>
 				<input
 					ref={nameRef}
@@ -123,7 +174,7 @@ export const AddItem = () => {
 					autoComplete="off"
 				/>
 				<select
-					className="justify-self-start px-2 h-full"
+					className="h-full px-2 justify-self-start"
 					ref={categoryRef}
 					name="category"
 					id=""
@@ -167,6 +218,61 @@ export const AddItem = () => {
 					Actualizar
 				</button>
 			</form>
+			<div className="bg-amber-500/30 md:w-fit p-8 rounded-2xl my-8">
+				<h1 className="w-fit mx-auto text-3xl">Autenticación</h1>
+				<h2>Registro</h2>
+				<div className="flex flex-col md:grid md:grid-cols-[max-content_40%] gap-x-8 gap-y-4 md:items-center mx-auto mb-4">
+					<label className="" htmlFor="mail">
+						Ingrese el correo electrónico
+					</label>
+					<input ref={emailRegRef} id="mail-reg" type="email" placeholder="email" />
+					<label className="" htmlFor="pass">
+						Ingrese la contrasena
+					</label>
+					<input
+						ref={passwordRegRef}
+						id="pass-reg"
+						type="password"
+						placeholder="*****"
+					/>
+					<button
+						onClick={handleRegister}
+						className="btn-primary col-span-2 justify-self-end ms-auto"
+					>
+						Registrarse
+					</button>
+				</div>
+				<h2>Inicio de sesión</h2>
+				<div className="flex flex-col md:grid md:grid-cols-[max-content_40%] gap-x-8 gap-y-4 md:items-center mx-auto mb-4">
+					<label className="md:text-right" htmlFor="mail">
+						Ingrese el correo electrónico
+					</label>
+					<input
+						ref={emailLoginRef}
+						id="mail-login"
+						type="email"
+						placeholder="email"
+					/>
+					<label className="md:text-right" htmlFor="pass">
+						Ingrese la contrasena
+					</label>
+					<input
+						ref={passwordLoginRef}
+						id="pass-login"
+						type="password"
+						placeholder="*****"
+					/>
+					<button onClick={handleLogin} className="btn-primary col-span-2 justify-self-end ms-auto">
+						Iniciar sesión
+					</button>
+					<button
+						onClick={handleLogout}
+						className="btn-danger btn-stretch col-span-2 mt-4"
+					>
+						Cerrar sesión
+					</button>
+				</div>
+			</div>
 		</div>
 	)
 }
