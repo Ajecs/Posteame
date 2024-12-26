@@ -5,8 +5,8 @@
   publish = "dist"
 
 [build.environment]
-   # disable NPM install
-   NPM_FLAGS = "--version"
+  # disable NPM install
+  NPM_FLAGS = "--version"
 
 [[redirects]]
   from = "/*"
