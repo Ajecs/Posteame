@@ -17,6 +17,7 @@
   --spacing: 0.25rem;
 
   /* Colors */
+  --color-primary: hsl(39, 100%, 50%);
   --color-secondary: hsl(0, 0%, 83%);
   /* grid-template-columns custom variables */
   --grid-template-columns-fill-100: repeat(auto-fill, minmax(100px, 1fr));
@@ -42,18 +43,22 @@
   }
 }
 
+/* * Cambio del esquema de la pagina al modo oscuro a partir de la clase "dark" */
+@variant dark (&:where(.dark, .dark *));
+
 /* ///Styles for the app/// */
 
-body {
-  @apply font-body;
+html, body {
+  @apply font-body scheme-only-light;
 }
 
+/* ///Buttons styles/// */
 button {
   padding: 0.5em 1em;
   border-radius: 1rem;
   cursor: pointer;
   width: fit-content;
-  @apply transition-colors duration-300;
+  @apply transition-all duration-300;
 }
 
 .btn-stretch {
@@ -82,10 +87,10 @@ button {
 
 input[type='text'],
 input[type='email'],
-input[type='password'] {
-  border: 1px solid gray;
+input[type='password'],
+textarea {
   padding: 0.5rem;
-  @apply rounded-lg;
+  @apply rounded-lg border border-secondary/70;
 }
 
 h2,
@@ -93,7 +98,7 @@ h3,
 h4,
 h5,
 h6 {
-  @apply my-8 font-display;
+  @apply my-4 font-display;
   font-size: 1.5rem;
 }
 
@@ -103,7 +108,9 @@ h6 {
 header,
 main,
 footer {
-  > div {
+
+  >div,
+  section {
     width: 95%;
     margin-inline: auto;
     @apply lg:w-[90%];
@@ -113,12 +120,12 @@ footer {
 /* ///Nav header styles/// */
 
 .nav-primary {
-  li > * {
+  li>* {
     padding: 0.5rem;
     @apply transition-colors rounded-lg duration-300;
 
     &:hover {
-      @apply  cursor-pointer bg-amber-100;
+      @apply cursor-pointer bg-amber-100;
     }
   }
 

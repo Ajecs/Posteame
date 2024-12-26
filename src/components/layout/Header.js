@@ -1,8 +1,8 @@
-import { useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
+import { Burger } from '../elements/Burger'
 
 export const Header = () => {
-	const isAuth = false
+	const isAuth = true
 
 	return (
 		<header className="border-b border-b-secondary h-[8vh] content-center">
@@ -12,8 +12,10 @@ export const Header = () => {
 						<span>Posteame</span>
 					</Link>
 				</div>
-				<nav className="nav-primary content-center h-full">
-					<ul className="flex items-center gap-6 text-lg lg:gap-12 lg:text-xl">
+				<nav className="nav-primary content-center md:h-full me-2">
+					{/* opcional para el responsive */}
+					<button className='hidden'><Burger /></button>
+					<ul className="flex items-center gap-4 text-lg lg:gap-8 lg:text-xl">
 						<li>
 							<NavLink to="/">Inicio</NavLink>
 						</li>
