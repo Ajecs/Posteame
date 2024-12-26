@@ -1,27 +1,33 @@
+import { useEffect, useState, useRef } from 'react'
+import { getDocs, collection } from 'firebase/firestore'
+import { db } from '../firebase/config'
 import { PostCard } from '../components'
 
 export const HomePage = () => {
-	const posts = [
-		{
-			id: 1,
-			title: 'Titulo 1',
-			description:
-				'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab itaque maxime incidunt quae molestias nam explicabo quam eaque ut voluptatum laudantium, cupiditate veritatis, perspiciatis sit non qui distinctio tempore soluta.',
-			author: 'Pisculichi vago',
-		},
-		{
-			id: 2,
-			title: 'Titulo 2',
-			description:
-				'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab itaque maxime incidunt quae molestias nam explicabo quam eaque ut voluptatum laudantium, cupiditate veritatis, perspiciatis sit non qui distinctio tempore soluta.',
-			author: 'Nicolas Coriale',
-		},
-	]
+	const [posts, setPosts] = useState([]),
+		[toggle, setToggle] = useState(false)
+
+	const postsRef = useRef(collection(db, 'posts'))
+	// De esta forma un objeto se puede usar como dependencia de useEffect
+
+	useEffect(() => {
+		const getPosts = async () => {
+			const data = await getDocs(postsRef.current)
+			setPosts(
+				data.docs.map((docs) => ({
+					...docs.data(),
+					id: docs.id,
+				})),
+			)
+		}
+
+		getPosts()
+	}, [postsRef, toggle])
 
 	return (
 		<section className="space-y-8 my-4">
 			{posts.map((post) => (
-				<PostCard key={post.id} post={post} />
+				<PostCard key={post.id} post={post} toggle={toggle} setToggle={setToggle} />
 			))}
 		</section>
 	)
