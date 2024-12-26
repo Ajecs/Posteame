@@ -1,4 +1,8 @@
+import { useTitle } from '../hooks/useTitle'
+
+
 export const PageNotFound = () => {
+	useTitle('Pagina no encontrada')
 	return (
 		<section className=" md:text-xl">
 			<div className="w-fit mx-auto space-y-4">

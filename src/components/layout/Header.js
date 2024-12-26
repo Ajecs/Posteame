@@ -14,7 +14,6 @@ export const Header = () => {
 
 	function handleLogin() {
 		signInWithPopup(auth, provider).then((result) => {
-			console.log(result)
 			setIsAuth(true)
 			localStorage.setItem('isAuth', true)
 			navigate('/')

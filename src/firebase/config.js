@@ -9,12 +9,12 @@ import {
 } from 'firebase/auth'
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyCj8GE444Vgm3tSYz5R8xpuMKZChyonM9k',
-	authDomain: 'lanotione.firebaseapp.com',
-	projectId: 'lanotione',
-	storageBucket: 'lanotione.firebasestorage.app',
-	messagingSenderId: '434031687516',
-	appId: '1:434031687516:web:45f906d195f6348e497399',
+	apiKey: `${import.meta.env.VITE_FIREBASE_API_KEY}`,
+	authDomain: `${import.meta.env.VITE_FIREBASE_AUTH_DOMAIN}`,
+	projectId: `${import.meta.env.VITE_FIREBASE_PROJECT_ID}`,
+	storageBucket: `${import.meta.env.VITE_FIREBASE_STORAGE_BUCKET}`,
+	messagingSenderId: `${import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID}`,
+	appId: `${import.meta.env.VITE_FIREBASE_APP_ID}`,
 }
 
 const app = initializeApp(firebaseConfig)
