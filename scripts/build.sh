@@ -5,3 +5,5 @@ export PATH="/opt/buildhome/.bun/bin:$PATH"
 bun --version
 bun install
 bun --bun run build
+
+# Permite ejecutar bun en netlify
